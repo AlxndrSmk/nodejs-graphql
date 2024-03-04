@@ -1,4 +1,5 @@
 import { Type } from '@fastify/type-provider-typebox';
+import { GraphQLObjectType, GraphQLString } from 'graphql';
 
 export const gqlResponseSchema = Type.Partial(
   Type.Object({
@@ -18,3 +19,29 @@ export const createGqlResponseSchema = {
     },
   ),
 };
+
+export const query = new GraphQLObjectType({
+  name: 'Query',
+  fields: () => ({
+    hello: {
+      type: GraphQLString,
+      args: {
+        name: { type: GraphQLString },
+      },
+      resolve: (parent, args) => `Hello, ${args.name}!`,
+    },
+  }),
+});
+
+export const mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: () => ({
+    setName: {
+      type: GraphQLString,
+      args: {
+        name: { type: GraphQLString },
+      },
+      resolve: (parent, args) => `Set name to: ${args.name}`,
+    },
+  }),
+});
